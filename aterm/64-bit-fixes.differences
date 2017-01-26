@@ -60,5 +60,3 @@ Unfortunately I copied hash.c from the v2.8 64-bit patch to master, this branch
 2. Copied byteencoding.c - has changes for (SIZEOF_INT == 8), NOTE: need to check if this is set
 3. Copied gc.c - has #ifdef AT_64BIT
 4. Copied idmappings.h - has #ifndef IDMAPPINGS_H_ fixed (was HASHTABLE_H_)
-5. Double check        that idmappings.c has no differences between 2.8.2 and 2.8.1
-
