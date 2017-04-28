@@ -23,7 +23,7 @@ extern "C"
 #define MASK_MARK	(1<<2)
 #define MASK_ARITY	((1<<4) | (1<<5) | (1<<6))
 #define MASK_TYPE	((1<<7) | (1<<8) | (1<<9))
-#define MASK_AGE        ((1<<0) | (1<<1))
+#define MASK_AGE    ((1<<0) | (1<<1))
 
 #define SHIFT_ARITY   4
 #define SHIFT_TYPE    7
@@ -32,18 +32,18 @@ extern "C"
 #define SHIFT_REMOVE_MARK_AGE 3
 #define MASK_AGE_MARK   (MASK_AGE|MASK_MARK)
 
-#if AT_64BIT
+#ifdef AT_64BIT
 #define SHIFT_LENGTH  34
-#define HEADER_BITS 64
+#define HEADER_BITS   64
 typedef unsigned long header_type;
 #else
 #define SHIFT_LENGTH  10
-#define HEADER_BITS 32
+#define HEADER_BITS   32
 typedef unsigned int header_type;
 #endif /* AT_64BIT */
 
 #define LENGTH_BITS (HEADER_BITS - SHIFT_LENGTH)
-#define MAX_LENGTH (1 << LENGTH_BITS)
+#define MAX_LENGTH  (1 << LENGTH_BITS)
 
 #define GET_AGE(h)     ((unsigned int)(((h) & MASK_AGE) >> SHIFT_AGE))
 #define SET_AGE(h, a)  ((h) = (((h) & ~MASK_AGE) | (((a) << SHIFT_AGE) & MASK_AGE)))

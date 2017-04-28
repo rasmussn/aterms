@@ -60,7 +60,7 @@ unsigned int write_bytes(const char *buf, unsigned int count, byte_writer *write
       return count;
 
     case FILE_WRITER:
-      return fwrite(buf, 1, count, writer->u.file_data);
+      return (unsigned int)fwrite(buf, 1, count, writer->u.file_data);
       
     default:
       abort();
@@ -104,8 +104,7 @@ int read_byte(byte_reader *reader)
 
 unsigned int read_bytes(char *buf, unsigned int count, byte_reader *reader)
 {
-  unsigned int index, size, left;
-  int result;
+  unsigned int index, size, left, result;
 
   result = 0;
   switch (reader->type) {
@@ -126,7 +125,7 @@ unsigned int read_bytes(char *buf, unsigned int count, byte_reader *reader)
       break;
 
     case FILE_READER:
-      result = fread(buf, 1, count, reader->u.file_data);
+      result = (unsigned int) fread(buf, 1, count, reader->u.file_data);
       reader->bytes_read += count;
       break;
       

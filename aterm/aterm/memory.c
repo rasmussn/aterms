@@ -62,8 +62,6 @@
 /*}}}  */
 /*{{{  globals */
 
-char memory_id[] = "$Id$";
-
 unsigned int maxTermSize = INITIAL_MAX_TERM_SIZE;
 
 TermInfo* terminfo = NULL;
@@ -934,8 +932,8 @@ void AT_freeTerm(unsigned int size, ATerm t)
 
   do {
     if(!cur) {
-        /*printf("freeterm = %d\n",t);*/
-      /*fprintf(stderr,"### cannot find term %x in hashtable at pos %d header = %x\n", (unsigned int)(intptr_t)t, (int)hnr, (unsigned int)t->header);*/
+      printf("freeterm = %p\n",t);
+      fprintf(stderr,"### cannot find term %x in hashtable at pos %d header = %x\n", (unsigned int)(intptr_t)t, (int)hnr, (unsigned int)t->header);
 
       ATabort("AT_freeTerm: cannot find term %n at %p in hashtable at pos %d"
               ", header = 0x%x\n", t, t, hnr, t->header);
@@ -2218,7 +2216,7 @@ ATbool AT_isValidTerm(ATerm term)
   ATbool inblock = ATfalse;
   int idx = ADDR_TO_BLOCK_IDX(term);
   int type;
-  int offset = 0;
+  ptrdiff_t offset = 0;
 
   assert(block_table[idx].first_after == block_table[(idx+1)%BLOCK_TABLE_SIZE].first_before);
   
@@ -2227,7 +2225,7 @@ ATbool AT_isValidTerm(ATerm term)
     if(cur->size) {
       assert(cur->next_before == cur->next_after);
       offset  = ((char *)term) - ((char *)&cur->data);
-      if (offset >= 0        && offset < (int)(BLOCK_SIZE * sizeof(header_type))) {
+      if (offset >= 0 && offset < (int)(BLOCK_SIZE * sizeof(header_type))) {
         inblock = ATtrue;
         break;
       }

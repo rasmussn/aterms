@@ -114,8 +114,6 @@ typedef struct
 /*}}}  */
 /*{{{  variables */
 
-char bafio_id[] = "$Id$";
-
 static int nr_unique_symbols = -1;
 static sym_read_entry *read_symbols;
 static sym_entry *sym_entries = NULL;

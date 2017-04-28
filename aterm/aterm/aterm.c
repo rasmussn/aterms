@@ -204,6 +204,7 @@ ATinit(int argc, char *argv[], ATerm * bottomOfStack)
   /* Check for reasonably sized ATerm (32 bits, 4 bytes)     */
   /* This check might break on perfectly valid architectures */
   /* that have char == 2 bytes, and sizeof(header_type) == 2 */
+  printf("ACK... sizeof(header_type)=%d sizeof(ATerm *)=%d AT_64BIT=%d \n", (int)sizeof(header_type), (int)sizeof(ATerm *), AT_64BIT); //CER-64
   assert(sizeof(header_type) == sizeof(ATerm *));
   assert(sizeof(header_type) >= 4);
 

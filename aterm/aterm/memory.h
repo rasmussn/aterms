@@ -18,7 +18,7 @@ extern "C"
 #define BLOCK_SIZE       (1<<BLOCK_SHIFT)
 #define BLOCK_TABLE_SIZE 4099     /* nextprime(4096) */
 
-#ifdef AT_64BIT 
+#ifdef AT_64BIT
 #define FOLD(w)        ((HN(w)) ^ (HN(w) >> 32))
 #define PTR_ALIGN_SHIFT	4
 #else

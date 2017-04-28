@@ -8,8 +8,6 @@
 #include <dmalloc.h>
 #endif
 
-char memmgnt_id[] = "$Id$";
-
 extern ATbool low_memory;
 void free_unused_blocks();
 

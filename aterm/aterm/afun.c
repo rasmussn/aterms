@@ -30,8 +30,6 @@
 /*}}}  */
 /*{{{  globals */
 
-char afun_id[] = "$Id$";
-
 static unsigned int table_class = INITIAL_AFUN_TABLE_CLASS;
 static unsigned int table_size  = AT_TABLE_SIZE(INITIAL_AFUN_TABLE_CLASS);
 static unsigned int table_mask  = AT_TABLE_MASK(INITIAL_AFUN_TABLE_CLASS);
@@ -289,7 +287,9 @@ int AT_writeAFun(AFun fun, byte_writer *writer)
     write_byte('"', writer);
     size++;
   } else {
-    size += write_bytes(id, strlen(id), writer);
+    size_t len = strlen(id);
+    assert(len+size <= UINT_MAX);
+    size += write_bytes(id, (unsigned int)len, writer);
   }
   return size;
 }

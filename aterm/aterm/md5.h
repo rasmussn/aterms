@@ -29,12 +29,12 @@ documentation and/or software.
 
 /* PROTOTYPES should be set to one if and only if the compiler supports
   function argument prototyping.
-  The following makes PROTOTYPES default to 1 if it has not already
-  been defined with C compiler flags (modern compilers all support prototypes, right).
+  The following makes PROTOTYPES default to 0 if it has not already
+  been defined with C compiler flags.
  */
 
 #ifndef PROTOTYPES
-#define PROTOTYPES 1
+#define PROTOTYPES 0
 #endif
 
 #ifdef __cplusplus
