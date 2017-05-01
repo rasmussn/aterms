@@ -32,11 +32,11 @@ extern "C"
 #define SHIFT_REMOVE_MARK_AGE 3
 #define MASK_AGE_MARK   (MASK_AGE|MASK_MARK)
 
-#ifdef AT_64BIT
+#if AT_64BIT == 1
 #define SHIFT_LENGTH  34
 #define HEADER_BITS   64
 typedef unsigned long header_type;
-#else
+#elif AT_64BIT == 0
 #define SHIFT_LENGTH  10
 #define HEADER_BITS   32
 typedef unsigned int header_type;
@@ -61,7 +61,7 @@ typedef unsigned int header_type;
 /* #define EQUAL_HEADER(h1,h2) (HIDE_AGE_MARK(h1)==HIDE_AGE_MARK(h2)) */
 #define EQUAL_HEADER(h1,h2) (HIDE_AGE_MARK(h1^h2) == 0)
 
-#define SHIFT_SYMBOL  SHIFT_LENGTH
+#define SHIFT_SYMBOL    SHIFT_LENGTH
 #define SHIFT_SYM_ARITY SHIFT_LENGTH
 
 #define TERM_SIZE_APPL(arity) ((sizeof(struct __ATerm)/sizeof(header_type))+arity)

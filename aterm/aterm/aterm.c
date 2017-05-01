@@ -1,4 +1,4 @@
-/*{{{  includes */
+                        /*{{{  includes */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -977,11 +977,13 @@ ATbool ATwriteToNamedSharedTextFile(ATerm t, const char *name)
 static int
 symbolTextSize(Symbol sym)
 {
-  char           *id = ATgetName(sym);
+  char *id;
+
+  id = ATgetName(sym);
 
   if (ATisQuoted(sym))
   {
-    int             len = 2;
+    int len = 2;
     while (*id)
     {
       /* We need to escape special characters */
@@ -1001,8 +1003,9 @@ symbolTextSize(Symbol sym)
     }
     return len;
   }
-  else
+  else {
     return strlen(id);
+  }
 }
 
 /*}}}  */
@@ -1228,7 +1231,7 @@ static unsigned long textSize(ATerm t)
       name = ATgetName(sym);
       size = symbolTextSize(sym);
       for (i = 0; i < arity; i++) {
-	size += topTextSize(ATgetArgument(appl, i));
+        size += topTextSize(ATgetArgument(appl, i));
       }
       if (arity > 0 || (!ATisQuoted(sym) && *name == '\0')) {
 	/* Add space for the ',' characters */

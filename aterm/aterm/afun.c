@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <limits.h>
 #include "aterm2.h"
 #include "_afun.h"
 #include "memory.h"
@@ -141,10 +142,10 @@ void AT_initSymbol(int argc, char *argv[])
   }
 
   for (i = first_free = 0; i < table_size; i++) {
-    at_lookup_table[i] = (SymEntry) SYM_SET_NEXT_FREE(i+1);
+    at_lookup_table[i] = (SymEntry) SYM_SET_NEXT_FREE(i+1L);
   }
 
-  at_lookup_table[i-1] = (SymEntry) SYM_SET_NEXT_FREE(-1);		/* Sentinel */
+  at_lookup_table[i-1] = (SymEntry) SYM_SET_NEXT_FREE(-1L);		/* Sentinel */
 
   protected_symbols = (Symbol *)AT_calloc(INITIAL_PROTECTED_SYMBOLS, 
 				       sizeof(Symbol));

@@ -225,7 +225,7 @@ VOIDCDECL mark_phase()
   ProtEntry *prot;
   ATprotected_block pblock;
 
-#ifdef AT_64BIT
+#if AT_64BIT == 1
   ATerm oddTerm;
   AFun oddSym;
 #endif
@@ -350,7 +350,7 @@ VOIDCDECL mark_phase_young()
   ProtEntry *prot;
   ATprotected_block pblock;
 
-#ifdef AT_64BIT
+#if AT_64BIT == 1
   ATerm oddTerm;
   AFun oddSym;
 #endif

@@ -10,12 +10,12 @@ extern "C"
 
 typedef unsigned int ShortHashNumber;
 
-#ifdef AT_64BIT
+#if AT_64BIT == 1
 typedef long MachineWord;
 typedef unsigned long HashNumber;
 #define ADDR_TO_SHORT_HNR(a) (((ShortHashNumber)((long)(a) & 0xFFFF) >> 2) ^ (((long)(a) >> 32)))
 
-#else
+#elif AT_64BIT == 0
 typedef int MachineWord;
 typedef unsigned int HashNumber;
 #define ADDR_TO_SHORT_HNR(a) (((ShortHashNumber)(a)) >> 2)
