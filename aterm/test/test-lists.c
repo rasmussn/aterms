@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <assert.h>
-#include <aterm2.h>
+#include "aterm2.h"
 
 int main(int argc, char * argv[])
 {
-   ATerm bottomOfStack = NULL;
+   ATerm stack = NULL;
    Symbol sym_int, sym_add;
    ATermAppl app_add;
    ATermList list_term, list_reverse;
@@ -12,7 +12,7 @@ int main(int argc, char * argv[])
    ATerm trm;
    int i;
 
-   ATinit(argc, argv, &bottomOfStack);
+   ATinit(argc, argv, &stack);
 
    list_term = ATempty;
    assert(ATgetLength(list_term) == 0);
