@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <limits.h>
 
 #if _WIN32 || WIN32
 #include <fcntl.h>
@@ -1039,6 +1040,7 @@ write_baf(ATerm t, byte_writer *writer)
   int nr_symbols = AT_symbolTableSize();
   int lcv, cur;
   int nr_bits;
+  size_t num;
   AFun sym;
 	
   /* Initialize bit buffer */
@@ -1049,12 +1051,16 @@ write_baf(ATerm t, byte_writer *writer)
     if(!SYM_IS_FREE(at_lookup_table[lcv]))
       at_lookup_table[lcv]->count = 0;
   }
-  nr_unique_symbols = AT_calcUniqueSymbols(t);
+
+  num = AT_calcUniqueSymbols(t);
+  assert(num <= INT_MAX);
+  nr_unique_symbols = num;
 
   sym_entries = (sym_entry *) AT_calloc(nr_unique_symbols, sizeof(sym_entry));
-  if(!sym_entries)
+  if(!sym_entries) {
     ATerror("write_baf: out of memory (%d unique symbols!\n",
 	    nr_unique_symbols);
+  }
 	
   nr_bits = bit_width(nr_unique_symbols);
 

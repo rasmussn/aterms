@@ -728,7 +728,7 @@ void major_sweep_phase_old()
       int alive_in_block = 0;
       int dead_in_block  = 0;
       int free_in_block  = 0;
-      int capacity = ((block->end)-(block->data))/size;
+      ptrdiff_t capacity = ((block->end)-(block->data))/size; /*RASMUSSEN - can't be int on 64 bit architectures */
       header_type *cur;
 
       assert(block->size == size);

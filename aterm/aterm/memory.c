@@ -2471,20 +2471,21 @@ void AT_printAllAFunCounts(FILE *file)
 }
 
 /*}}}  */
-/*{{{  int AT_calcAllocatedBytes() */
+/*{{{  size_t AT_calcAllocatedBytes() */
 
 
 /**
  * Calculate all allocated bytes containing ATerms.
  */
 
-unsigned long AT_calcAllocatedSize()
+size_t AT_calcAllocatedSize()
 {
   unsigned int i;
-  unsigned long total = 0;
+  size_t total = 0L;
 
-  for(i=0; i<maxTermSize; i++)
+  for(i=0; i<maxTermSize; i++) {
     total += terminfo[i].at_nrblocks*sizeof(Block);
+  }
 
   total += table_size*sizeof(ATerm);
 
