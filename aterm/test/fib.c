@@ -39,14 +39,7 @@ int suc2int(ATerm t) {
   int res = 0;
   ATerm sub;
   
-  //printf("suc2int: t=%s \n", ATwriteToString(t));
   f = ATgetAFun(t);
-  printf("%d\n", AT_isValidSymbol(f));
-  AT_printSymbol(f,stderr);
-  fprintf(stderr, " :f \n");
-  AT_printSymbol(f_suc,stderr);
-  fprintf(stderr, " :f_suc \n");
-
   while(f==f_suc) {
     res++;
     sub = ATgetArgument(t,0);
