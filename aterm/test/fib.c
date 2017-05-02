@@ -252,7 +252,6 @@ int mmain() {
 
   /* printf("enter n: "); scanf("%d",&n); */
   n = 32;
-  n = 26;
 
   /* construct the term representation of the n value */
   query = zero();
@@ -261,6 +260,7 @@ int mmain() {
   }
 
   /*  write the original number and its 'fib' */
+  res = zero(); /* initialize to prevent warning message */
   for(i=0; i<1; i++) {
     /* res = fib(query); */
     res = normalizeFib(mkfib(query));
