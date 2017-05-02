@@ -98,9 +98,9 @@ static void resize_table()
 
 /*}}}  */
 
-/*{{{  unsigned int AT_symbolTableSize() */
+/*{{{  size_t AT_symbolTableSize() */
 
-unsigned int AT_symbolTableSize()
+size_t AT_symbolTableSize()
 {
   return table_size;
 }

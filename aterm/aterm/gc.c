@@ -189,7 +189,7 @@ static void mark_memory_young(ATerm *start, ATerm *stop, ATbool check_term)
         }
       }
     } else if (AT_isValidSymbol((Symbol)*cur)) {
-        /*fprintf(stderr,"mark_memory_young: AT_markSymbol_young(%d)\n",(Symbol)*cur);*/
+        /* fprintf(stderr,"mark_memory_young: AT_markSymbol_young(%ld), stop-cur=%ld\n",(Symbol)*cur, stop-cur); */
       AT_markSymbol_young((Symbol)*cur);
         /*nb_cell_in_stack++;*/
     }
