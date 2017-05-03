@@ -1,5 +1,14 @@
-AC_INIT([aterm], [3.0], [rasmus@uoregon.edu])
+AC_INIT([aterm], [3.0])
+AC_PREREQ([2.59])
+
+dnl +--------------------------------------------------------------------------+
+dnl | Autotools setup
+dnl +--------------------------------------------------------------------------+
+AC_CONFIG_AUX_DIR([config])
+
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+
+AM_CONFIG_HEADER([aterm_config.h])
 
 AC_PROG_CC
 
@@ -31,6 +40,8 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([
  Makefile
  aterm/Makefile
+ utils/Makefile
+ test/Makefile
 ])
 
 AC_OUTPUT
