@@ -1,9 +1,8 @@
 /*{{{  includes */
 
+#include <assert.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include <assert.h>
-#include <limits.h>
 #include "aterm2.h"
 #include "_afun.h"
 #include "memory.h"
@@ -288,9 +287,7 @@ size_t AT_writeAFun(AFun fun, byte_writer *writer)
     write_byte('"', writer);
     size++;
   } else {
-    size_t len = strlen(id);
-    assert(len+size <= UINT_MAX);
-    size += write_bytes(id, len, writer);
+    size += write_bytes(id, strlen(id), writer);
   }
   return size;
 }

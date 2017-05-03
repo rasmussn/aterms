@@ -24,6 +24,8 @@ extern "C"
 #elif AT_64BIT == 0
 #define FOLD(w)        (HN(w))
 #define PTR_ALIGN_SHIFT	2
+#else
+"ERROR: AT_64BIT is undefined"
 #endif
 
 #define ADDR_TO_BLOCK_IDX(a) \

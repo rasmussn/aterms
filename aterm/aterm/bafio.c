@@ -452,7 +452,6 @@ AT_print_sym_entries()
     sym_entry *cur_entry = &sym_entries[cur_sym];
     ATfprintf(stderr, "symbol %y: #=%d, width: %d\n",
 	      cur_entry->id, cur_entry->nr_terms, cur_entry->term_width);
-//RASMUSSEN - should this go back in????
 #if 0
     {
       int cur_trm;
