@@ -906,14 +906,14 @@ void AT_freeTerm(unsigned int size, ATerm t)
 
   terminfo[size].nb_reclaimed_cells_during_last_gc++;
   
-    /*fprintf(stderr,"AT_freeTerm term[%d] = %x\theader = %x\n",size,(unsigned int)t,t->header);*/
+    /*fprintf(stderr,"AT_freeTerm term[%d] = %lx\theader = %lx\n",size,(size_t)t,t->header);*/
   
     /* The data of a blob needs to be freed!!! */
   if (ATgetType(t) == AT_BLOB) {
     ATbool destructed = ATfalse;
       /*ATfprintf(stderr, "freeing blob %p (%p): %t\n", t, ATgetBlobData((ATermBlob)t), t);*/
     for (i=0; i<destructor_count; i++) {
-        /*fprintf(stderr,"apply destructors[%d] on (%d)\n",i,t);*/
+        /*fprintf(stderr,"apply destructors[%d] on (%ld)\n",i,(size_t)t);*/
       if ((destructors[i])((ATermBlob)t)) {
         destructed = ATtrue;
         break;
@@ -921,7 +921,7 @@ void AT_freeTerm(unsigned int size, ATerm t)
     }
       /*printf("destructed = %d\n",destructed);*/
     if (!destructed) {
-        /*printf("free BlobData(%d)\n",ATgetBlobData((ATermBlob)t));*/
+        /*printf("free BlobData(%p)\n",ATgetBlobData((ATermBlob)t));*/
       AT_free(ATgetBlobData((ATermBlob)t));
     }
   }
