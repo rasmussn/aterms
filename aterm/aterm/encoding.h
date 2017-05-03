@@ -40,6 +40,8 @@ typedef unsigned long header_type;
 #define SHIFT_LENGTH  10
 #define HEADER_BITS   32
 typedef unsigned int header_type;
+#else
+"ERROR: AT_64BIT is undefined"
 #endif /* AT_64BIT */
 
 #define LENGTH_BITS (HEADER_BITS - SHIFT_LENGTH)

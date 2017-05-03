@@ -101,7 +101,7 @@ unsigned long AT_getAllocatedCount();
 struct _ATprotected_block {
 	ATerm* term;                     /* Pointer to the allocated block */
 	size_t size;                     /* Size of the allocated block, in bytes */
-	size_t protsize;                 /* Protected size (the actual size that is in use) */
+	ptrdiff_t protsize;              /* Protected size (the actual size that is in use) */
 	struct _ATprotected_block *next, *prev; /* Chain */
 };
 typedef struct _ATprotected_block *ATprotected_block;
@@ -118,6 +118,9 @@ ATerm *AT_realloc_protected_minmax(ATerm *term, size_t minnelem, size_t maxnelem
 ATerm *AT_grow_protected(ATerm* term, size_t nelem);
 void AT_free_protected(ATerm* term);
 void AT_free_protected_blocks();
+
+/* For unit testing purposes */
+long AT_approximatepowerof2(long n);
 
 #define AT_getMaxTermSize() (maxTermSize)
 

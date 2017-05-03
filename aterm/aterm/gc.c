@@ -219,16 +219,11 @@ void ATmarkArray(ATerm *start, int size)
 VOIDCDECL mark_phase()
 {
   int i, j;
-  int stack_size;
+  ptrdiff_t stack_size;
   ATerm *stackTop;
   ATerm *start, *stop;
   ProtEntry *prot;
   ATprotected_block pblock;
-
-#if AT_64BIT == 1
-  ATerm oddTerm;
-  AFun oddSym;
-#endif
 
 #ifdef WIN32
 
@@ -298,7 +293,7 @@ VOIDCDECL mark_phase()
   start = MIN(stackTop, stackBot);
   stop  = MAX(stackTop, stackBot);
 
-  stack_size = stop-start;
+  stack_size = stop - start;
   STATS(stack_depth, stack_size);
 
   mark_memory(start, stop, ATtrue);
@@ -344,16 +339,11 @@ VOIDCDECL mark_phase()
 VOIDCDECL mark_phase_young() 
 {
   int i, j;
-  int stack_size;
+  ptrdiff_t stack_size;
   ATerm *stackTop;
   ATerm *start, *stop;
   ProtEntry *prot;
   ATprotected_block pblock;
-
-#if AT_64BIT == 1
-  ATerm oddTerm;
-  AFun oddSym;
-#endif
 
 #ifdef WIN32
 
@@ -421,7 +411,7 @@ VOIDCDECL mark_phase_young()
   start = MIN(stackTop, stackBot);
   stop  = MAX(stackTop, stackBot);
 
-  stack_size = stop-start;
+  stack_size = stop - start;
   STATS(stack_depth, stack_size);
 
   mark_memory_young(start, stop, ATtrue);
@@ -728,7 +718,7 @@ void major_sweep_phase_old()
       int alive_in_block = 0;
       int dead_in_block  = 0;
       int free_in_block  = 0;
-      ptrdiff_t capacity = ((block->end)-(block->data))/size; /*RASMUSSEN - can't be int on 64 bit architectures */
+      ptrdiff_t capacity = ((block->end) - (block->data))/size;
       header_type *cur;
 
       assert(block->size == size);
@@ -789,7 +779,7 @@ void major_sweep_phase_old()
         fprintf(stderr,"MAJOR OLD: reclaim empty block %p\n",block);
 #endif
         reclaim_empty_block(AT_OLD_BLOCK, size, block, prev_block);
-      } else if(0 && 100*alive_in_block/capacity <= TO_YOUNG_RATIO) {
+      } else if (0 && 100*alive_in_block/capacity <= TO_YOUNG_RATIO) {
         promote_block_to_young(size, block, prev_block);
         old_bytes_in_young_blocks_after_last_major += (alive_in_block*SIZE_TO_BYTES(size));
       } else {
@@ -843,7 +833,7 @@ void major_sweep_phase_young()
       int free_in_block  = 0;
       int old_in_block   = 0;
       int young_in_block = 0;
-      int capacity = (end-(block->data))/size;
+      ptrdiff_t capacity = (end - (block->data))/size;
       header_type *cur;
       
       assert(block->size == size);
@@ -988,17 +978,17 @@ void minor_sweep_phase_young()
     Block *block = ti->at_blocks[AT_BLOCK];
     header_type *end = ti->top_at_blocks;
 
-      /* empty the freelist*/
+      /* empty the freelist */
     ti->at_freelist = NULL;
         
-    while(block) {
-        /* set empty = 0 to avoid recycling*/
+    while (block) {
+        /* set empty = 0 to avoid recycling */
       int empty = 1;
       int alive_in_block = 0;
       int dead_in_block  = 0;
       int free_in_block  = 0;
       int old_in_block  = 0;
-      int capacity = (end-(block->data))/size;
+      ptrdiff_t capacity = (end - (block->data))/size;
       header_type *cur;
       
       assert(block->size == size);
@@ -1068,11 +1058,13 @@ void minor_sweep_phase_young()
         ti->at_freelist = old_freelist;
       }
       
-       /* TODO: create freeList Old*/
-      if(0 && empty) {
+       /* TODO: create freeList Old */
+      if (/* DISABLES CODE */ (0) && empty) {
+          /* the preceding if statement gives Clang warning of not executible code with parens around 0 */
+          /* FIXME */
         ti->at_freelist = old_freelist;
         reclaim_empty_block(AT_BLOCK, size, block, prev_block);
-      } else if(0 && 100*old_in_block/capacity >= TO_OLD_RATIO) {
+      } else if (0 && (100*old_in_block/capacity >= TO_OLD_RATIO)) {
         promote_block_to_old(size, block, prev_block);
       } else {
         old_bytes_in_young_blocks_since_last_major += (old_in_block*SIZE_TO_BYTES(size));

@@ -2430,7 +2430,7 @@ static int compare_afuns(const void *l, const void *r)
 
 void AT_printAllAFunCounts(FILE *file)
 {
-  unsigned int i, nr_syms;
+  size_t i, nr_syms;
   AFun *afuns;
 
   nr_syms = AT_symbolTableSize();

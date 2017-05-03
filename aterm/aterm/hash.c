@@ -16,14 +16,15 @@
 /*}}}  */
 /*{{{  includes */
 
-#include "aterm2.h"
-#include "_aterm.h"
-#include "util.h"
-#include "memory.h"
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+
+#include "aterm2.h"
+#include "_aterm.h"
+#include "util.h"
+#include "memory.h"
 
 /*}}}  */
 /*{{{  defines */
@@ -82,13 +83,16 @@ struct _ATermTable
 
 static long approximatepowerof2(long n)
 {
-  int mask = n;
+  long mask = n;
 
-  while(mask >>= 1) {
+  while (mask >>= 1) {
     n |= mask;
   }
 
-  if (n<127) n=127;
+  if (n < 127) {
+    n = 127;
+  }
+
   return n;
 }
 
@@ -668,3 +672,12 @@ ATermList  ATtableValues(ATermTable table)
 }
 
 /*}}}  */
+
+
+/**
+ * Function for testing approximatepowerof2 static function
+ */
+long AT_approximatepowerof2(long n)
+{
+   return approximatepowerof2(n);
+}

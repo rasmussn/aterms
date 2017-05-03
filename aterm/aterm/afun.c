@@ -239,17 +239,17 @@ int AT_printSymbol(AFun fun, FILE *f)
 }
 
 /*}}}  */
-/*{{{  int AT_writeAFun(AFun fun, byte_writer *writer) */
+/*{{{  size_t AT_writeAFun(AFun fun, byte_writer *writer) */
 
 /**
   * Print an afun.
   */
 
-int AT_writeAFun(AFun fun, byte_writer *writer)
+size_t AT_writeAFun(AFun fun, byte_writer *writer)
 {
   SymEntry entry = at_lookup_table[fun];
   char *id = entry->name;
-  int size = 0;
+  size_t size = 0;
 
   if (IS_QUOTED(entry->header)) {
     /* This function symbol needs quotes */
@@ -290,7 +290,7 @@ int AT_writeAFun(AFun fun, byte_writer *writer)
   } else {
     size_t len = strlen(id);
     assert(len+size <= UINT_MAX);
-    size += write_bytes(id, (unsigned int)len, writer);
+    size += write_bytes(id, len, writer);
   }
   return size;
 }
