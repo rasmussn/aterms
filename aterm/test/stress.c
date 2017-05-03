@@ -464,8 +464,10 @@ testRead(void)
 {
   ATerm t;
   FILE *f = fopen(SRCDIR "test.trms", "rb");
-  if(!f)
+  if(!f) {
+    printf("ERROR: in testRead, path is %s\n", SRCDIR "test.trms");
     ATerror("cannot open file \"test.trms\"");
+  }
 
   do {
     t = ATreadFromTextFile(f);
