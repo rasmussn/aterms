@@ -932,8 +932,8 @@ void AT_freeTerm(unsigned int size, ATerm t)
 
   do {
     if(!cur) {
-      printf("freeterm = %p\n",t);
-      fprintf(stderr,"### cannot find term %x in hashtable at pos %d header = %x\n", (unsigned int)(intptr_t)t, (int)hnr, (unsigned int)t->header);
+      fprintf(stderr,"freeterm = %p, table_size = %ld, table_class = %d\n", t, table_size, table_class);
+      fprintf(stderr,"### cannot find term %ld %lx in hashtable at pos %ld header = %lx\n", (long)t, (size_t)t, hnr, t->header);
 
       ATabort("AT_freeTerm: cannot find term %n at %p in hashtable at pos %d"
               ", header = 0x%x\n", t, t, hnr, t->header);
