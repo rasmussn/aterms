@@ -1,7 +1,7 @@
 #include $(top_srcdir)/Makefile.meta
 
-TESTS = stress primes randgen fib testsafio
-check_PROGRAMS = test_memory primes randgen termstats fib testsafio stress
+TESTS = test_memory test_lists primes randgen fib testsafio stress
+check_PROGRAMS = test_memory test_lists primes randgen termstats fib testsafio stress
 
 EXTRA_DIST = \
   error.trm \
@@ -27,6 +27,7 @@ AM_CPPFLAGS = \
 test_memory_SOURCES = test_memory.c
 test_memory_CFLAGS = -DNDEBUG -DAT_64BIT=${AT_64BIT} -DSIZEOF_INT=${SIZEOF_INT}
 
+test_lists_SOURCES = test_lists.c
 primes_SOURCES = primes.c
 fib_SOURCES    = fib.c
 randgen_SOURCES = randgen.c
