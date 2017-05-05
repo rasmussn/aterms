@@ -11,6 +11,7 @@ AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AM_CONFIG_HEADER([aterm_config.h])
 
 AC_PROG_CC
+AM_PROG_CC_C_O
 
 AM_PROG_AR
 AC_PROG_LIBTOOL
