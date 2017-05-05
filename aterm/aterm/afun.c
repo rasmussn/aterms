@@ -385,7 +385,7 @@ Symbol ATmakeSymbol(const char *name, int arity, ATbool quoted)
   
   if(arity >= MAX_ARITY) {
     ATabort("cannot handle symbols with arity %d (max=%d)\n",
-	    arity, MAX_ARITY-1);
+            arity, MAX_ARITY-1);
   }
 
   /* Find symbol in table */
@@ -406,7 +406,7 @@ Symbol ATmakeSymbol(const char *name, int arity, ATbool quoted)
      
       free_entry = first_free;
       if (free_entry == -1) {
-	ATerror("AT_initSymbol: out of symbol slots!\n");
+        ATerror("AT_initSymbol: out of symbol slots!\n");
       }
     }
 

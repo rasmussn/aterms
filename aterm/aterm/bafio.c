@@ -405,13 +405,15 @@ readString(byte_reader *reader)
     {
       text_buffer_size = len*1.5;
       text_buffer = (char *) AT_realloc(text_buffer, text_buffer_size);
-      if(!text_buffer)
-	ATerror("out of memory in readString (%d)\n", text_buffer_size);
+      if(!text_buffer) {
+        ATerror("out of memory in readString (%d)\n", text_buffer_size);
+      }
     }
 
   /* Read the actual string */
-  if (read_bytes(text_buffer, len, reader) != len)
+  if (read_bytes(text_buffer, len, reader) != len) {
     return -1;
+  }
 
   /* Ok, return length of string */
   return len;
@@ -1313,20 +1315,20 @@ ATbool read_all_symbols(byte_reader *reader)
     } else {
       read_symbols[i].nr_topsyms = (int *)AT_calloc(arity, sizeof(int));
       if(!read_symbols[i].nr_topsyms) {
-	ATerror("read_all_symbols: out of memory trying to allocate "
-		"space for %d arguments.\n", arity);
+        ATerror("read_all_symbols: out of memory trying to allocate "
+                "space for %d arguments.\n", arity);
       }
 
       read_symbols[i].sym_width = (int *)AT_calloc(arity, sizeof(int));
       if(!read_symbols[i].sym_width) {
-	ATerror("read_all_symbols: out of memory trying to allocate "
-		"space for %d arguments .\n", arity);
+        ATerror("read_all_symbols: out of memory trying to allocate "
+                "space for %d arguments .\n", arity);
       }
 
       read_symbols[i].topsyms = (int **)AT_calloc(arity, sizeof(int *));
       if(!read_symbols[i].topsyms) {
-	ATerror("read_all_symbols: out of memory trying to allocate "
-		"space for %d arguments.\n", arity);
+        ATerror("read_all_symbols: out of memory trying to allocate "
+                "space for %d arguments.\n", arity);
       }
     }
 
@@ -1334,19 +1336,19 @@ ATbool read_all_symbols(byte_reader *reader)
 
     for(j=0; j<read_symbols[i].arity; j++) {
       if(readInt(&val, reader) < 0)
-	return ATfalse;
+        return ATfalse;
 
       read_symbols[i].nr_topsyms[j] = val;
       read_symbols[i].sym_width[j] = bit_width(val);
       read_symbols[i].topsyms[j] = (int *)AT_calloc(val, sizeof(int));
       if(!read_symbols[i].topsyms[j]) {
-	ATerror("read_symbols: could not allocate space for %d top symbols.\n", val);
+        ATerror("read_symbols: could not allocate space for %d top symbols.\n", val);
       }
 
       for(k=0; k<read_symbols[i].nr_topsyms[j]; k++) {
-	if(readInt(&val, reader) < 0)
-	  return ATfalse;
-	read_symbols[i].topsyms[j][k] = val;
+        if(readInt(&val, reader) < 0)
+          return ATfalse;
+        read_symbols[i].topsyms[j][k] = val;
       }
     }
 
@@ -1412,6 +1414,7 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
       return NULL;
 
     result = (ATerm)ATmakeInt((int)val);
+    ATfprintf(stderr, "AS_INT: result = %t\n", result);
 
     /*}}}  */
     break;
@@ -1423,14 +1426,15 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
       int len;
 
       if(flushBitsFromReader(reader) < 0)
-	return NULL;
+        return NULL;
       if((len = readString(reader)) < 0)
-	return NULL;
+        return NULL;
 
       text_buffer[len] = '\0';
 
       sscanf(text_buffer, "%lf", &real);
       result = (ATerm)ATmakeReal(real);
+      ATfprintf(stderr, "AS_REAL: result = %t\n", result);
     }
 
     /*}}}  */
@@ -1443,9 +1447,9 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
       char *data;
 
       if(flushBitsFromReader(reader) < 0)
-	return NULL;
+        return NULL;
       if((len = readString(reader)) < 0)
-	return NULL;
+        return NULL;
 
       data = AT_malloc(len);
       if(!data)
@@ -1462,7 +1466,9 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
     result = (ATerm)ATmakePlaceholder(args[0]);
     break;
   case AS_LIST:
+    ATfprintf(stderr, "AS_LIST: insert = %t\n   in list = %t\n", args[0], args[1]);
     result = (ATerm)ATinsert((ATermList)args[1], args[0]);
+    ATfprintf(stderr, "AS_LIST: result = %t\n", result);
     break;
   case AS_EMPTY_LIST:
     result = (ATerm)ATempty;
@@ -1474,13 +1480,14 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
     /* Must be a function application */
     result = (ATerm)ATmakeApplArray(sym->sym, args);
 
-    /*
+//    /*
       ATfprintf(stderr, "building application from the arguments:\n");
       for(i=0; i<arity; i++)
       ATfprintf(stderr, "  %d = %t\n", i, args[i]);
 
       ATfprintf(stderr, "result = %t\n", result);
-    */
+
+//    */
   }
 
   if(arity > MAX_INLINE_ARITY) {
