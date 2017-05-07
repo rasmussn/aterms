@@ -17,7 +17,7 @@ int main(int argc, char **argv){
    }
 
    program = ATreadFromBinaryFile(file);
-   printf("program term is:\n%s\n\n", ATwriteToString(program));
+   /*printf("program term is:\n%s\n\n", ATwriteToString(program));*/
 
 #if 0
    testIntegerEncoding();

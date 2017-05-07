@@ -44,6 +44,9 @@ typedef unsigned int header_type;
 "ERROR: AT_64BIT is undefined"
 #endif /* AT_64BIT */
 
+/* assumes 32 bit integers (used in bafio.c) */
+#define INTEGER_BITS   32
+
 #define LENGTH_BITS (HEADER_BITS - SHIFT_LENGTH)
 #define MAX_LENGTH  (1 << LENGTH_BITS)
 

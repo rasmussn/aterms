@@ -258,7 +258,7 @@ readBits(unsigned int *val, int nr_bits, byte_reader *reader)
     if (bits_in_buffer == 0) {
       int val = read_byte(reader);
       if (val == EOF)
-	return -1;
+        return -1;
       bit_buffer = (char) val;
       bits_in_buffer = 8;
     }
@@ -607,7 +607,7 @@ static void build_arg_tables()
     else {
       cur_entry->top_symbols = (top_symbols *)AT_calloc(arity, sizeof(top_symbols));
       if(!cur_entry->top_symbols) {
-	ATerror("build_arg_tables: out of memory (arity: %d)\n", arity);
+        ATerror("build_arg_tables: out of memory (arity: %d)\n", arity);
       }
     }
 
@@ -644,7 +644,7 @@ static void build_arg_tables()
 	    arg = ATgetArgument((ATermAppl)term, cur_arg);
 	    break;
 	  default:
-	    ATerror("build_arg_tables: illegal term\n");
+            ATerror("build_arg_tables: illegal term\n");
 	    break;
 	  }
 	}
@@ -904,7 +904,7 @@ static ATbool write_term(ATerm t, byte_writer *writer, ATbool anno_done)
   } else {
     switch(ATgetType(t)) {
     case AT_INT:
-      if(writeBits(ATgetInt((ATermInt)t), HEADER_BITS, writer) < 0) {
+      if(writeBits(ATgetInt((ATermInt)t), INTEGER_BITS, writer) < 0) {
 	return ATfalse;
       }
 #if 0
@@ -1081,7 +1081,7 @@ write_baf(ATerm t, byte_writer *writer)
       sym_entries[cur].nr_terms = entry->count;
       sym_entries[cur].terms = (trm_bucket *) AT_calloc(entry->count, sizeof(trm_bucket));
       if (!sym_entries[cur].terms) {
-	ATerror("write_baf: out of memory (sym: %d, terms: %d)\n", lcv, entry->count);
+        ATerror("write_baf: out of memory (sym: %d, terms: %d)\n", lcv, entry->count);
       }
       sym_entries[cur].termtable_size = (entry->count*5)/4;
       sym_entries[cur].termtable =
@@ -1387,20 +1387,17 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
     if(readBits(&val, sym->sym_width[i], reader) < 0)
       return NULL;
     arg_sym = &read_symbols[sym->topsyms[i][val]];
-    /*		ATfprintf(stderr, "argument %d, symbol index = %d, symbol = %y\n", 
-		i, val, arg_sym->sym);*/
+    /*ATfprintf(stderr, "argument %d, symbol index = %d, symbol = %y\n", i, val, arg_sym->sym);*/
+    /*ATfprintf(stderr, "  argsym = %y (term width = %d)\n", arg_sym->sym, arg_sym->term_width);*/
 
-    /*ATfprintf(stderr, "  argsym = %y (term width = %d)\n",
-      arg_sym->sym, arg_sym->term_width);*/
     if(readBits(&val, arg_sym->term_width, reader) < 0)
       return NULL;
-    /*		ATfprintf(stderr, "arg term index = %d\n", val);*/
+    /*ATfprintf(stderr, "arg term index = %d\n", val);*/
     if(!arg_sym->terms[val]) {
       arg_sym->terms[val] = read_term(arg_sym, reader);
       if(!arg_sym->terms[val])
 	return NULL;
-      /*ATfprintf(stderr, "sym=%y, index=%d, t=%t\n", arg_sym->sym, 
-	val, arg_sym->terms[val]);				*/
+      /*ATfprintf(stderr, "sym=%y, index=%d, t=%t\n", arg_sym->sym, val, arg_sym->terms[val]);*/
     }
 
     args[i] = arg_sym->terms[val];
@@ -1410,11 +1407,11 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
   case AS_INT:
     /*{{{  Read an integer */
 
-    if(readBits(&val, HEADER_BITS, reader) < 0)
+    if (readBits(&val, INTEGER_BITS, reader) < 0)
       return NULL;
 
     result = (ATerm)ATmakeInt((int)val);
-    ATfprintf(stderr, "AS_INT: result = %t\n", result);
+    /*ATfprintf(stderr, "AS_INT: result = %t\n", result);*/
 
     /*}}}  */
     break;
@@ -1434,7 +1431,7 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
 
       sscanf(text_buffer, "%lf", &real);
       result = (ATerm)ATmakeReal(real);
-      ATfprintf(stderr, "AS_REAL: result = %t\n", result);
+      /*ATfprintf(stderr, "AS_REAL: result = %t\n", result);*/
     }
 
     /*}}}  */
@@ -1453,7 +1450,7 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
 
       data = AT_malloc(len);
       if(!data)
-	ATerror("could not allocate space for blob of size %d\n", len);
+        ATerror("could not allocate space for blob of size %d\n", len);
 
       memcpy(data,text_buffer,len);
 
@@ -1466,12 +1463,12 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
     result = (ATerm)ATmakePlaceholder(args[0]);
     break;
   case AS_LIST:
-    ATfprintf(stderr, "AS_LIST: insert = %t\n   in list = %t\n", args[0], args[1]);
     result = (ATerm)ATinsert((ATermList)args[1], args[0]);
-    ATfprintf(stderr, "AS_LIST: result = %t\n", result);
+    /*ATfprintf(stderr, "AS_LIST: result = %t\n", result);*/
     break;
   case AS_EMPTY_LIST:
     result = (ATerm)ATempty;
+    /*ATfprintf(stderr, "AS_EMPTY_LIST: result = %t\n", result);*/
     break;
   case AS_ANNOTATION:
     result = AT_setAnnotations(args[0], args[1]);
@@ -1480,14 +1477,13 @@ ATerm read_term(sym_read_entry *sym, byte_reader *reader)
     /* Must be a function application */
     result = (ATerm)ATmakeApplArray(sym->sym, args);
 
-//    /*
+    /*
       ATfprintf(stderr, "building application from the arguments:\n");
-      for(i=0; i<arity; i++)
-      ATfprintf(stderr, "  %d = %t\n", i, args[i]);
-
+      for (i=0; i<arity; i++) {
+        ATfprintf(stderr, "  %d = %t\n", i, args[i]);
+      }
       ATfprintf(stderr, "result = %t\n", result);
-
-//    */
+    */
   }
 
   if(arity > MAX_INLINE_ARITY) {
