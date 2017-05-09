@@ -59,7 +59,48 @@
   assert((t) != NULL \
          && (!at_check || (AT_isValidTerm(t) && "term is invalid")))
 
+/*}}} */
+/*{{{  static ptrdiff_t fold_func(ptrdiff_t w) */
+
+/**
+ * function for testing FOLD
+ */
+static ptrdiff_t fold_func(ptrdiff_t w)
+{
+   ptrdiff_t f1, f2, fold;
+   f1 = HN(w);
+#if AT_64BIT == 1
+   f2 = HN(w) >> 32;
+   fold = (f1 ^ f2);
+#elif AT_64BIT == 0
+   fold = f1;
+#else
+"ERROR: AT_64BIT not defined"
+#endif
+   return fold;
+}
+
+/*}}} */
+/*{{{  static ptrdiff_t start_func(ptrdiff_t w) */
+
+/**
+ * function for testing START
+ */
+static ptrdiff_t start_func(ptrdiff_t w)
+{
+   ptrdiff_t mask_mark, mask_age, mask_age_mark, hide_age_mark, start;
+
+   mask_age      = (1<<0) | (1<<1);
+   mask_mark     = (1<<2);
+   mask_age_mark = (mask_age | mask_mark);
+   hide_age_mark = (w & ~mask_age_mark);
+
+   start = fold_func(hide_age_mark);
+   return start;
+}
+
 /*}}}  */
+
 /*{{{  globals */
 
 unsigned int maxTermSize = INITIAL_MAX_TERM_SIZE;
