@@ -1,7 +1,7 @@
 #include $(top_srcdir)/Makefile.meta
 
-TESTS = test_memory test_lists primes randgen fib testsafio stress
-check_PROGRAMS = test_memory test_lists primes randgen termstats fib testsafio stress
+TESTS = test_memory test_lists primes randgen fib testsafio test_bafio stress
+check_PROGRAMS = test_memory test_lists primes randgen termstats fib testsafio test_bafio stress
 
 EXTRA_DIST = \
   error.trm \
@@ -12,7 +12,9 @@ EXTRA_DIST = \
   vararg2.c \
   vararg3.c \
   testsafio.c \
-  test_memory.c
+  test_bafio.c \
+  test_memory.c \
+  test_lists.c
 
 CLEANFILES = test.taf test.blob terms.c terms.h
 BUILT_SOURCES = terms.c terms.h
@@ -45,7 +47,7 @@ stress_CFLAGS = -DNDEBUG -DAT_64BIT=${AT_64BIT} -DSIZEOF_INT=${SIZEOF_INT}
 #vararg3_SOURCES = vararg3.c
 
 testsafio_SOURCES = testsafio.c
-
+test_bafio_SOURCES = test_bafio.c
 
 .dict.c:
 	${top_builddir}/utils/dicttoc -file-prefix $* -dict $<
